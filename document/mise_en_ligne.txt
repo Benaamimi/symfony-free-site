@@ -1,0 +1,89 @@
+(Si vous avez déjà une application sur scalingo en version gratuite vous allez devoir supprimer l'ancienne)
+
+création du dépot git
+
+git init
+git add .
+git commit -m "first commit"
+git remote add origin lienGitRepo
+git push  ou git push --set-upstream origin master
+
+avant de continuer il faut modifier notre application avant la mise en ligne
+
+tout d'abord il faut créer le htaccess qui permet de modifier l'url en ligne :
+
+- composer require symfony/apache-pack 
+
+(répondre "y" )
+
+vérifier alors que votre htaccess est bien dans le dossier public
+
+créer un fichier Procfile a la racine et y mettre cette ligne :
+
+postdeploy: php bin/console doctrine:migrations:migrate
+
+maintenant les configurations de notre app sont faite plus qu'a re push l'application
+
+git add .
+git commit -m "modification pour la mise en ligne"
+git push
+
+maintenant allons sur https://dashboard.scalingo.com/
+
+
+create new app 
+
+lui donner un nom et appuyer sur créer
+
+choisir de push par git (relier et accepter scalingo a accèder a git si ce n'est pas fait)
+
+aller dans ressource et cliquer sur add an addon
+
+selectionner MySql et choisissez la version free a 0€
+
+attendre que la config se finisse
+
+maintenant aller dans environnement
+
+cliquer sur new variable
+
+name : APP_ENV value: prod
+
+aller maintenant dans Deploy/configuration
+
+selectionner GitHub et cliquer sur Link repo et selectionner votre depot et branch master
+
+aller dans manual deployement et trigger deployment
+
+(si vous avez une erreur SQL une solution possible est de changer la valeur de votre Procfile et de mettre "doctrine:schema:update --force" à la place de 
+"doctrine:migrations:migrate")
+
+
+
+
+
+
+############################################# Pour pouvoir accéder a notre BDD en Ligne ###########################################################################################
+
+https://doc.scalingo.com/platform/cli/start
+
+
+scalingo
+
+connection user/password ou si la connexion ne fonctionne pas faite une connexion grace au token : scalingo login --api-token <votreToken>
+
+scalingo apps
+
+scalingo --app <nomDeVotreApp> mysql-console
+
+SELECT * FROM user;
+
+UPDATE user SET roles='["ROLE_ADMIN"]' WHERE id=1;
+
+fnjfjffjk
+
+
+
+
+
+
