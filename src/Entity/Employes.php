@@ -6,6 +6,8 @@ namespace App\Entity;
 use App\Repository\EmployesRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: EmployesRepository::class)]
 class Employes
@@ -15,27 +17,38 @@ class Employes
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $nom = null;
 
+
+  
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Ce champs ne peut pas être vide')]
+    private ?string $nom = null;
+    
+    #[Assert\NotBlank(message: 'Ce champs ne peut pas être vide')]
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
-
+    
+    #[Assert\NotBlank(message: 'Ce champs ne peut pas être vide')]
     #[ORM\Column]
-    private ?int $telephone = null;
-
+    private ?string $telephone = null;
+    
+    #[Assert\NotBlank(message: 'Ce champs ne peut pas être vide')]
     #[ORM\Column(length: 255)]
     private ?string $email = null;
-
+    
+    #[Assert\NotBlank(message: 'Ce champs ne peut pas être vide')]
     #[ORM\Column(length: 255)]
     private ?string $adresse = null;
-
+    
+    #[Assert\NotBlank(message: 'Ce champs ne peut pas être vide')]
     #[ORM\Column(length: 255)]
     private ?string $poste = null;
-
+    
+    #[Assert\NotBlank(message: 'Ce champs ne peut pas être vide')]
     #[ORM\Column]
     private ?int $salaire = null;
-
+    
+    #[Assert\NotNull(message: 'Ce champs ne peut pas être vide')]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $datedenaissance = null;
 
@@ -133,7 +146,7 @@ class Employes
         return $this->datedenaissance;
     }
 
-    public function setDatedenaissance(\DateTimeInterface $datedenaissance): static
+    public function setDatedenaissance(?\DateTimeInterface $datedenaissance): static
     {
         $this->datedenaissance = $datedenaissance;
 

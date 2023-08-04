@@ -3,5 +3,16 @@
 {% block title %}{% endblock %}
 
 {% block body %}
+        <h1 class="text-center my-3">Bien venu dans notre entreprise</h1>
+        <div class="text-center my-3 mt-5">
+                <a  href="{{ path('ajouter') }}">
+                <button type="button" class="btn btn-outline-dark">Ajouter des employes</button>
+                </a>
+        </div>
+        <div class="text-center my-3">
+                <a href="{{ path('employes') }}">
+                <button type="button" class="btn btn-outline-dark "> liste des employes </button>
+                </a>
+        </div>
 
 {% endblock %}

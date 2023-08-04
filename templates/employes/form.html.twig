@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{# {% block title %}Formulaire{% endblock %} #}
+
+{% block title %}
+
+    {% if editMode %}
+        Modifier
+    {% else %}
+        Ajouter
+    {% endif %}
+
+{% endblock %}
+
+
+{% block body %}
+
+    <h1 class="text-center my-3"> {% if editMode %}
+        Modifier des employes
+    {% else %}
+        Ajouter des employes
+    {% endif %}</h1>
+
+<div class="container col-6 my-5">
+
+  {{form_start(formEmployes, {attr: {novalidate: "novalidate"}})}}
+     
+   {{form_end(formEmployes)}}
+
+</div>
+  
+   
+   
+  
+   
+     
+   
+  
+
+
+
+{% endblock %}

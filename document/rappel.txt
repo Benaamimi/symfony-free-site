@@ -1,0 +1,73 @@
+This pack installs a .htaccess file in the public/ directory that contains the rewrite rules needed to serve the Symfony application.
+dans le terminal: 
+** composer require symfony/apache-pack **
+
+pour les asset il faut un use dans Entity:
+** use Symfony\Component\Validator\Constraints as Assert **
+
+pour les contraints sur les date j'ai fait "?public function setDatedenaissance(?\DateTimeInterface $datedenaissance): static" au lieu de "public function setDatedenaissance(\DateTimeInterface $datedenaissance): static" pour que la contraint fonctionne
+
+//---------------------------------- formulaire affichage--------------------//
+
+{# ! en twig un tableau   { indice: valeur }  en PHP [ indice => valeur ] #}
+
+ {# {{ form(form) }} #}
+    {# ! la fonction form() affiche tout le formulaire d'un seul block nom modifiable #}
+
+dans twig je mais ça pour afficher le formulaire
+  {{form_start(formEmployes, {attr: {novalidate: "novalidate"}})}}
+     
+   {{form_end(formEmployes)}}
+
+//---------------------------------- etape controller --------------------//
+
+  1-  #[Route('/blog', name: 'app_blog')]
+    //* une route est définie par 2 arguments : son chemin (/blog) dans l'url et son nom (app_blog)
+
+  2-      $articles = $repo->findAll();
+      //*$repo est instance de la classe ArticleRepository et possède du cout les 4 méthodes de bases find(), findOneBy(), findAll(), findBy()
+
+  3-    return $this->render('blog/index.html.twig', [
+            "articles" =>  $articles
+        ]);
+        //* render() permet d'afficher le contenu d'un template. Elle va chercher directement dans le dossier template
+
+  4-      // * dans le render en deuxième argument on peut envoyer des données dans la vue (twig) sous forme de       tableau avec indice => valeur
+        //* l'indice étant le nom de la variable dans le fichier twig et valeur sa valeur réel 
+
+ 
+        #[Route('/blog/ajout', name:"blog_ajout")]
+  6-   public function form(Request $globals, EntityManagerInterface $manager, Article $article = null ) : Response
+    {
+        
+        if($article == null)
+        {
+            $article =  new Article ;
+        }
+         
+        $form = $this->createForm(ArticleType::class, $article);
+
+        $form->handleRequest($globals);
+        // * handleRequest() permet de récupérer tout les données de mes inputs
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            // dd($globals->request);
+
+            // $article->setTitle('un titre');
+
+            $article->setCreatedAt(new \Datetime);
+
+              -------// dd($article);---------//permet dafficher le un var_dump organiser//--------
+
+            //*persist() va permettre de préparer ma requete SQL a envoyer par rapport a l'objet donné en argument
+            $manager->persist($article);
+
+            //* flush() permettre d'executer tout les persist précédent
+            $manager->flush();
+            
+            //* redirectToRoute() permet de rediriger vers une autre page de notre site a l'aide du nom de la route (name)
+            return $this->redirectToRoute('blog_gestion');
+        }
+    }
+
