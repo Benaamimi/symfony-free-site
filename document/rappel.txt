@@ -65,9 +65,11 @@ dans twig je mais ça pour afficher le formulaire
 
             //* flush() permettre d'executer tout les persist précédent
             $manager->flush();
-            
+
             //* redirectToRoute() permet de rediriger vers une autre page de notre site a l'aide du nom de la route (name)
             return $this->redirectToRoute('blog_gestion');
         }
     }
+
+    7-
 
